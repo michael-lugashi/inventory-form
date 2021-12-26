@@ -4,7 +4,15 @@ import equipmentList from '../model/equipment-list';
 const equipmentReducer = (state = equipmentList, { type, payload }) => {
  switch (type) {
   case CHANGE_QUANTITY:
-   return state;
+   const newQuantityState = state.map((item) => {
+    if (item.name === payload.name) {
+        item.currentQuantity = payload.quantity
+        item.missing = item.fullQuantity - payload.quantity
+    }
+    return item;
+   });
+
+   return newQuantityState;
   case ADD_ITEM:
    return state;
   case SUBMIT_FORM:
