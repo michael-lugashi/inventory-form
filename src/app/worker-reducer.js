@@ -6,7 +6,7 @@ const workerReducer = (state = initialWorkerInfo, { type, payload }) => {
   case UPDATE_WORKER_DETAILS:
    return state;
   case SUBMIT_FORM:
-   return state;
+   return [...state];
 
   default:
    return state;

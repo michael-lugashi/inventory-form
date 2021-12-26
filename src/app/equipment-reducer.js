@@ -6,15 +6,16 @@ const equipmentReducer = (state = equipmentList, { type, payload }) => {
   case CHANGE_QUANTITY:
    const newQuantityState = state.map((item) => {
     if (item.name === payload.name) {
-        item.currentQuantity = payload.quantity
-        item.missing = item.fullQuantity - payload.quantity
+     item.currentQuantity = payload.quantity;
+     item.missing = item.fullQuantity - payload.quantity;
     }
     return item;
    });
 
    return newQuantityState;
   case ADD_ITEM:
-   return state;
+   payload.missing = payload.fullQuantity - payload.currentQuantity;
+   return [...state, payload];
   case SUBMIT_FORM:
    return state;
 
