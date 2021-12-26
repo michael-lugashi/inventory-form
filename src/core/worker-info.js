@@ -85,6 +85,6 @@ function initialDate() {
   date.getDate(),
   date.getFullYear(),
  ];
- console.log(`${month}-${day}-${year}`);
+
  return `${year}-${month}-${day}`;
 }

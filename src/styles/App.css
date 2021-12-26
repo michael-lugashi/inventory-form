@@ -2,3 +2,11 @@
  width: 60vw;
  margin: auto;
 }
+.current-quantity-input{
+  width: 3.25vw;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: none;
+}
+.current-quantity-input:hover{
+  background-color: rgba(255, 255, 255, .85);;
+}
