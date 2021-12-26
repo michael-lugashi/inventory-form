@@ -39,17 +39,26 @@ function AddItem() {
      <Form.Label>Full Quantity</Form.Label>
      <Form.Control
       size="sm"
+      min={0}
       value={fullQuantity}
       type="number"
       onChange={(e) => {
+       if (e.target.value < 0) {
+        return;
+       }
        setFullQuantity(e.target.value);
       }}
      />
      <Form.Label>Current Quantity</Form.Label>
      <Form.Control
       value={currentQuantity}
+      min={0}
+      max={fullQuantity}
       type="number"
       onChange={(e) => {
+       if (e.target.value < 0 || e.target.value > fullQuantity) {
+        return;
+       }
        setCurrentQuantity(e.target.value);
       }}
      />
@@ -57,13 +66,15 @@ function AddItem() {
      <Button
       onClick={(e) => {
        try {
-        if(!name || !fullQuantity || !currentQuantity) {
-            throw Error('All Fields Must Be Filled Out!')
+        if (!name || !fullQuantity || !currentQuantity) {
+         throw Error('All Fields Must Be Filled Out!');
         }
-        if(fullQuantity < currentQuantity) {
-            throw Error('The current quantity cannot be greater than the full quantity!')
+        if (fullQuantity < currentQuantity) {
+         throw Error(
+          'The current quantity cannot be greater than the full quantity!'
+         );
         }
-         
+
         dispatch(
          addItem({
           name,
@@ -73,7 +84,7 @@ function AddItem() {
         );
         resetInputs();
        } catch (error) {
-        swal('Opps!', error.message, 'error')
+        swal('Opps!', error.message, 'error');
        }
       }}
       variant="outline-primary"

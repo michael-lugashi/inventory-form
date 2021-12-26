@@ -1,5 +1,6 @@
 import { SUBMIT_FORM, ADD_ITEM, CHANGE_QUANTITY } from './action-types';
 import equipmentList from '../model/equipment-list';
+import swal from 'sweetalert';
 
 const equipmentReducer = (state = equipmentList, { type, payload }) => {
  switch (type) {
@@ -15,8 +16,20 @@ const equipmentReducer = (state = equipmentList, { type, payload }) => {
    return newQuantityState;
 
   case ADD_ITEM:
-   payload.missing = payload.fullQuantity - payload.currentQuantity;
-   return [...state, payload];
+   try {
+    for (const { name } of state) {
+     if (name === payload.name) {
+      console.log(name);
+      throw new Error('Item already in list!');
+     }
+    }
+    payload.missing = payload.fullQuantity - payload.currentQuantity;
+    swal('', 'Item successfuly added!', 'success');
+    return [...state, payload];
+   } catch (error) {
+    swal('Oops!', error.message, 'error');
+    return state;
+   }
 
   case SUBMIT_FORM:
    const emptyList = state.map((item) => {
@@ -24,6 +37,7 @@ const equipmentReducer = (state = equipmentList, { type, payload }) => {
     item.missing = item.fullQuantity;
     return item;
    });
+   swal('', 'Form successfully submitted!', 'success');
    return emptyList;
 
   default:
