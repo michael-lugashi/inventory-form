@@ -72,7 +72,7 @@ function AddItem() {
         if (!name || !fullQuantity || !currentQuantity) {
          throw Error('All Fields Must Be Filled Out!');
         }
-        if (fullQuantity < currentQuantity) {
+        if (Number(fullQuantity) < Number(currentQuantity)) {
          throw Error(
           'The current quantity cannot be greater than the full quantity!'
          );
