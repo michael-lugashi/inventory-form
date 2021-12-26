@@ -4,9 +4,9 @@ import initialWorkerInfo from '../model/initial-worker-Info';
 const workerReducer = (state = initialWorkerInfo, { type, payload }) => {
  switch (type) {
   case UPDATE_WORKER_DETAILS:
-   return state;
+   return payload;
   case SUBMIT_FORM:
-   return [...state];
+   return {...initialWorkerInfo};
 
   default:
    return state;

@@ -13,11 +13,18 @@ const equipmentReducer = (state = equipmentList, { type, payload }) => {
    });
 
    return newQuantityState;
+
   case ADD_ITEM:
    payload.missing = payload.fullQuantity - payload.currentQuantity;
    return [...state, payload];
+
   case SUBMIT_FORM:
-   return state;
+   const emptyList = state.map((item) => {
+    item.currentQuantity = 0;
+    item.missing = item.fullQuantity;
+    return item;
+   });
+   return emptyList;
 
   default:
    return state;

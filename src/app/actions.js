@@ -17,3 +17,14 @@ export const addItem = (newItem) => {
   payload: newItem,
  };
 };
+export const updateWorkerDetails = (workerDetails) =>{
+    return {
+        type: UPDATE_WORKER_DETAILS,
+        payload: workerDetails 
+    }
+}
+export const submitForm = () => {
+    return {
+        type: SUBMIT_FORM,
+    }
+}

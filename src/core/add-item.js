@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../app/actions';
 
 function AddItem() {
  const dispatch = useDispatch();
+ const nameInput = useRef(null);
  const [name, setName] = useState('');
- const [fullQuantity, setFullQuantity] = useState(0);
- const [currentQuantity, setCurrentQuantity] = useState(0);
+ const [fullQuantity, setFullQuantity] = useState('');
+ const [currentQuantity, setCurrentQuantity] = useState('');
+ const workerDetails = useSelector((state) => state.workerDetails);
+
+ const resetInputs = () => {
+  setName('');
+  setFullQuantity('');
+  setCurrentQuantity('');
+ };
+ useEffect(() => {
+  resetInputs();
+ }, [workerDetails]);
+
  return (
   <div>
    <h4>Add Item:</h4>
@@ -15,7 +27,9 @@ function AddItem() {
     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
      <Form.Label>Item Name</Form.Label>
      <Form.Control
+      ref={nameInput}
       size="sm"
+      value={name}
       type="text"
       onChange={(e) => {
        setName(e.target.value);
@@ -24,6 +38,7 @@ function AddItem() {
      <Form.Label>Full Quantity</Form.Label>
      <Form.Control
       size="sm"
+      value={fullQuantity}
       type="number"
       onChange={(e) => {
        setFullQuantity(e.target.value);
@@ -31,6 +46,7 @@ function AddItem() {
      />
      <Form.Label>Current Quantity</Form.Label>
      <Form.Control
+      value={currentQuantity}
       type="number"
       onChange={(e) => {
        setCurrentQuantity(e.target.value);
@@ -42,14 +58,16 @@ function AddItem() {
        dispatch(
         addItem({
          name,
-         fullQuantity,
-         currentQuantity,
+         fullQuantity: Number(fullQuantity),
+         currentQuantity: Number(currentQuantity),
         })
        );
+       resetInputs();
+       console.log(workerDetails);
       }}
       variant="outline-primary"
      >
-      Add
+      Add Item
      </Button>
     </Form.Group>
    </Form>
