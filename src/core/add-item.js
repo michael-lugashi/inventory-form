@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../app/actions';
+import swal from 'sweetalert';
 
 function AddItem() {
  const dispatch = useDispatch();
@@ -55,15 +56,25 @@ function AddItem() {
      <br />
      <Button
       onClick={(e) => {
-       dispatch(
-        addItem({
-         name,
-         fullQuantity: Number(fullQuantity),
-         currentQuantity: Number(currentQuantity),
-        })
-       );
-       resetInputs();
-       console.log(workerDetails);
+       try {
+        if(!name || !fullQuantity || !currentQuantity) {
+            throw Error('All Fields Must Be Filled Out!')
+        }
+        if(fullQuantity < currentQuantity) {
+            throw Error('The current quantity cannot be greater than the full quantity!')
+        }
+         
+        dispatch(
+         addItem({
+          name,
+          fullQuantity: Number(fullQuantity),
+          currentQuantity: Number(currentQuantity),
+         })
+        );
+        resetInputs();
+       } catch (error) {
+        swal('Opps!', error.message, 'error')
+       }
       }}
       variant="outline-primary"
      >

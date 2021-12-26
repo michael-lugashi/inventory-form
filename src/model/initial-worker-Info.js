@@ -5,3 +5,4 @@ const initialWorkerInfo = {
 }
 
 export default initialWorkerInfo
+

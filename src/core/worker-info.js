@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import swal from 'sweetalert';
 import { submitForm, updateWorkerDetails } from '../app/actions';
 
 function UserInfo() {
  const [fullName, setFullName] = useState('');
  const [workPlace, setWorkPlace] = useState('');
- const [date, setDate] = useState('');
  const dispatch = useDispatch();
-
+ const [date, setDate] = useState(initialDate());
  const resetInputs = () => {
   setFullName('');
   setWorkPlace('');
@@ -49,15 +49,22 @@ function UserInfo() {
      <br />
      <Button
       onClick={() => {
-       dispatch(
-        updateWorkerDetails({
-         fullName,
-         workPlace,
-         date,
-        })
-       );
-       dispatch(submitForm());
-       resetInputs();
+       try {
+        if (!fullName || !workPlace || !date) {
+         throw new Error('All worker details must be included!');
+        }
+        dispatch(
+         updateWorkerDetails({
+          fullName,
+          workPlace,
+          date,
+         })
+        );
+        dispatch(submitForm());
+        resetInputs();
+       } catch (error) {
+        swal('Oops!', error.message, 'error');
+       }
       }}
       variant="outline-primary"
      >
@@ -70,3 +77,14 @@ function UserInfo() {
 }
 
 export default UserInfo;
+
+function initialDate() {
+ const date = new Date();
+ const [month, day, year] = [
+  date.getMonth(),
+  date.getDate(),
+  date.getFullYear(),
+ ];
+ console.log(`${month}-${day}-${year}`);
+ return `${year}-${month}-${day}`;
+}
