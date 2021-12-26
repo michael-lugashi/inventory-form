@@ -43,7 +43,7 @@ function AddItem() {
       value={fullQuantity}
       type="number"
       onChange={(e) => {
-       if (e.target.value < 0) {
+       if (Number(e.target.value) < 0) {
         return;
        }
        setFullQuantity(e.target.value);
@@ -56,7 +56,10 @@ function AddItem() {
       max={fullQuantity}
       type="number"
       onChange={(e) => {
-       if (e.target.value < 0 || e.target.value > fullQuantity) {
+       if (
+        Number(e.target.value) < 0 ||
+        Number(e.target.value) > fullQuantity
+       ) {
         return;
        }
        setCurrentQuantity(e.target.value);
